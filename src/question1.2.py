@@ -18,22 +18,36 @@ test_y = test[:, 1]
 
 X, Y = utl.calcXY(train, P)
 
+
+W = utl.calcW(X, Y, P)
+
+xx = np.linspace(min(train_x), max(train_x), N * 100)
+yy = np.array([])
+
+for i in range(0, N * 100):
+    row = utl.makePoly(xx[i], P)
+    yy = np.append(yy, W.T.dot(row))
+
+plt.figure(0)
+plt.plot(xx, yy, color='b')
+plt.scatter(train_x, train_y, color='r')
+plt.show()
+
 #  L2 Regularization added
 lamb = 0
 lambs = np.array([lamb])
-W = utl.calcW(X, Y, P, lamb)
 mse_train = np.array([utl.calcMSE(W, train_x, train_y, P, N)])
 mse_validation = np.array([utl.calcMSE(W, valid_x, valid_y, P, N)])
-mse_test = np.array([utl.calcMSE(W, test_x, test_y, P, N)])
+# mse_test = np.array([utl.calcMSE(W, test_x, test_y, P, N)])
 while lamb <= 1:
     lamb += 0.001
     lambs = np.append(lambs, lamb)
     w_new = utl.calcW(X, Y, P, lamb)
     mse_train = np.append(mse_train, utl.calcMSE(w_new, train_x, train_y, P, N))
     mse_validation = np.append(mse_validation, utl.calcMSE(w_new, valid_x, valid_y, P, N))
-    mse_test = np.append(mse_test, utl.calcMSE(w_new, test_x, test_y, P, N))
+    # mse_test = np.append(mse_test, utl.calcMSE(w_new, test_x, test_y, P, N))
 
-mse = np.array([lambs, mse_train, mse_validation, mse_test]).T
+mse = np.array([lambs, mse_train, mse_validation]).T
 min_mse_valid_index = np.where(mse_validation == min(mse_validation))
 print(mse[min_mse_valid_index])
 bestLambda = mse[min_mse_valid_index, 0][0][0]
@@ -49,5 +63,11 @@ for i in range(0, N * 100):
 plt.figure(1)
 plt.plot(xx, yy, color='b')
 plt.scatter(test_x, test_y, color='r')
+plt.show()
+
+plt.figure(2)
+plt.plot(lambs, mse_validation, color='orange')
+plt.plot(lambs, mse_train, color='blue')
+plt.ylim(8, 10.5)
 plt.show()
 
