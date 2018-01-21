@@ -23,6 +23,13 @@ def makePoly(x: float, p: int):
     return row
 
 
+def linPredict(row: np.ndarray, coeffs: np.ndarray):
+    yHat = coeffs[0]
+    for i in range(len(coeffs) - 1):
+        yHat += coeffs[i + 1] * row[i]
+    return yHat
+
+
 def calcMSE(coeffs: np.ndarray, data_x: np.ndarray, data_y: np.ndarray,
             degree: int, count=-1):
     if count == -1:
@@ -33,4 +40,4 @@ def calcMSE(coeffs: np.ndarray, data_x: np.ndarray, data_y: np.ndarray,
         result = coeffs.T.dot(row)
         mse += ((result - data_y[i]) ** 2)
     mse /= count
-    return mse[0]
+    return mse
