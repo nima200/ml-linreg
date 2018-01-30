@@ -3,10 +3,10 @@ import matplotlib.pyplot as plt
 import util as utl
 if __name__ == "__main__":
     # Load data
-    train = np.genfromtxt('Data/Dataset_1_train.csv', delimiter=',', usecols=(0, 1))
-    valid = np.genfromtxt('Data/Dataset_1_valid.csv', delimiter=',', usecols=(0, 1))
-    test = np.genfromtxt('Data/Dataset_1_test.csv', delimiter=',', usecols=(0, 1))
-    # Create
+    train = np.genfromtxt('./Dataset_1_train.csv', delimiter=',', usecols=(0, 1))
+    valid = np.genfromtxt('./Dataset_1_valid.csv', delimiter=',', usecols=(0, 1))
+    test = np.genfromtxt('./Dataset_1_test.csv', delimiter=',', usecols=(0, 1))
+    # Create Sets
     N = len(train)
     P = 20
     train_x = train[:, 0]
